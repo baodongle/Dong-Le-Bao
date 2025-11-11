@@ -1,0 +1,13 @@
+sequenceDiagram
+    participant User
+    participant Client
+    participant API
+    participant WebSocket/SSE
+    participant AllClients
+
+    User->>Client: Completes Action (e.g., task, achievement)
+    Client->>API: POST /api/v1/scores/increment (JWT, actionId, actionType, metadata)
+    API->>API: Authenticate & Validate Request
+    API->>API: Update Score, Recalculate Rank
+    API->>WebSocket/SSE: Broadcast SCOREUPDATE
+    WebSocket/SSE->>AllClients: Update UI in Real Time
